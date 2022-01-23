@@ -18,9 +18,9 @@ internal static class MaterialLibraryGrammar
 
     private static readonly Parser<Material> MaterialParser =
         from name in MaterialNameParser
-        from filename in PropertyParser.Select(tuple => new StringProperty(tuple.name, tuple.value))
-        from densityXhi in PropertyParser.Select(tuple => new DoubleProperty(tuple.name, tuple.value))
-        from puasson in PropertyParser.Select(tuple => new DoubleProperty(tuple.name, tuple.value))
+        from filename in PropertyParser.Select(property => new StringProperty(name, property.name, property.value))
+        from densityXhi in PropertyParser.Select(property => new DoubleProperty(name, property.name, property.value))
+        from puasson in PropertyParser.Select(property => new DoubleProperty(name, property.name, property.value))
         from end in Parse.LineEnd.Text().Optional()
         select new Material(name, filename, densityXhi, puasson);
 

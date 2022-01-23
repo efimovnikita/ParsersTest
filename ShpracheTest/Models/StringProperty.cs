@@ -2,7 +2,7 @@ namespace ShpracheTest.Models;
 
 public class StringProperty : Property
 {
-    public StringProperty(string name, string value) : base(name)
+    public StringProperty(string materialName, string name, string value) : base(materialName, name)
     {
         Name = name;
         Value = value;
