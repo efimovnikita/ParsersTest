@@ -1,119 +1,24 @@
-﻿using ShpracheTest.Models;
+﻿using System.Text;
+using ShpracheTest.Models;
 using Serilog;
 
 using var log = new LoggerConfiguration()
     .WriteTo.Console()
-    .MinimumLevel.Debug()
     .CreateLogger();
 
-const string input = @"T-Flex Material Library Unicode
-Version1370
-
-[Алюминий чистый]
-guid	= E61A919C-D234-422D-9AD4-902921CF39BF
-guidDOCS	= 00000000-0000-0000-0000-000000000000
-coating	= FALSE
-description	= Чистые металлы
-ambientColor	= 166,166,166
-diffuseColor	= 215,218,223
-specularColor	= 154,154,154
-emissiveColor	= 7,7,7
-blendColor	= 146,147,147
-shininess	= 0.420000
-transparency	= 0.000000
-reflection	= 0.300000
-index_refraction	= 1.000000
-filename	= 
-wrapT	= REPEAT
-wrapS	= REPEAT
-density	= 2.70000000000000e-06
-folder	= Чистые металлы
-bump	= 
-bump_type	= NORMAL
-structure	= ISOTROPIC
-elasticity	= 0.000000
-expansion	= 0.000021
-puasson	= 0.000000
-thermal_cond	= 0.218000
-shear_modulus_xy	= 0.000000
-stressT	= 0.000000
-stressC	= 0.000000
-temprature_cond	= 2700.000000
-specific_heat	= 900.000000
-yield_strength	= 0.000000
-exportinfo	= 
-model	= MODULATE
-specification_left	= 
-specification_top	= 
-specification_bottom	= 
-specification_right	= 
-translate	= 0e+00, 0.000000e+00
-rotate	= 0e+00
-center	= 0e+00, 0.000000e+00
-scale	= 1e+00, 1.000000e+00
-coordFunc	= DEFAULT
-directionS	= 0e+00, 1.000000e+00, 0.000000e+00
-directionT	= 0e+00, 1.000000e+00, 0.000000e+00
-patscale	= 25.400000
-pattern	= DEFAULT
-Fatigue Law	=Empty Fatigue
-
-[Бериллий чистый]
-guid	= B37F140D-18EC-4B0F-BCE1-82B7C0873CE6
-guidDOCS	= 00000000-0000-0000-0000-000000000000
-coating	= FALSE
-description	= Чистые металлы
-ambientColor	= 98,96,90
-diffuseColor	= 196,196,198
-specularColor	= 196,196,198
-emissiveColor	= 2,2,2
-blendColor	= 146,147,147
-shininess	= 0.420000
-transparency	= 0.000000
-reflection	= 0.300000
-index_refraction	= 1.000000
-filename	= 
-wrapT	= REPEAT
-wrapS	= REPEAT
-density	= 1.85000000000000e-06
-folder	= Чистые металлы
-bump	= 
-bump_type	= NORMAL
-structure	= ISOTROPIC
-elasticity	= 0.000000
-expansion	= 0.000012
-puasson	= 0.000000
-thermal_cond	= 0.184000
-shear_modulus_xy	= 0.000000
-stressT	= 0.000000
-stressC	= 0.000000
-temprature_cond	= 1850.000000
-specific_heat	= 1884.000000
-yield_strength	= 0.000000
-exportinfo	= 
-model	= MODULATE
-specification_left	= 
-specification_top	= 
-specification_bottom	= 
-specification_right	= 
-translate	= 0e+00, 0.000000e+00
-rotate	= 0e+00
-center	= 0e+00, 0.000000e+00
-scale	= 1e+00, 1.000000e+00
-coordFunc	= DEFAULT
-directionS	= 0e+00, 1.000000e+00, 0.000000e+00
-directionT	= 0e+00, 1.000000e+00, 0.000000e+00
-patscale	= 25.400000
-pattern	= DEFAULT
-Fatigue Law	=Empty Fatigue";
+string metals = File.ReadAllText("/home/maskedball/Downloads/materials.zip_pass_123/materials/metals.mtr", Encoding.Unicode);
+string nonMetals = File.ReadAllText("/home/maskedball/Downloads/materials.zip_pass_123/materials/non_metals.mtr", Encoding.Unicode);
 
 log.Information("Start parsing");
 try
 {
-    var library = Library.Parse(input);
-    log.Information("Parsed materials count: {@Count}", library.Materials.Count());
+    var metalsLib = Library.Parse(metals);
+    var nonMetalsLib = Library.Parse(nonMetals);
 
-    foreach (var material in library.Materials)
+    log.Information("Parsed materials count in metals lib: {@Count}", metalsLib.Materials.Count());
+    log.Information("Parsed materials count in non metals lib: {@Count}", nonMetalsLib.Materials.Count());
+
+    foreach (var material in metalsLib.Materials)
     { 
         log.Debug("{PropName} {@Info}", nameof(material.Name), material.Name);
         log.Debug("{PropName} {@Info}", nameof(material.Guid), material.Guid);

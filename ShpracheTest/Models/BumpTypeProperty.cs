@@ -20,6 +20,9 @@ public class BumpTypeProperty : Property
             case "NORMAL":
                 Value = BumpType.Normal;
                 break;
+            case "HEIGHT":
+                Value = BumpType.Height;
+                break;
             case "NONE":
                 Value = BumpType.None;
                 break;
